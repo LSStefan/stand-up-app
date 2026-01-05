@@ -1,7 +1,9 @@
 :root {
-    --magenta: #ff00ff;
-    --magenta-glow: rgba(255, 0, 255, 0.6);
-    --dark-bg: #050106;
+    --magenta: #ff00ff; /* Magenta pur, electric */
+    --magenta-glow: rgba(255, 0, 255, 0.3);
+    --dark-bg: #030104; /* Un negru cu o foarte mică tentă de violet */
+    --text-white: #ffffff;
+    --text-dim: rgba(255, 255, 255, 0.35); /* Transparenta pentru motto */
 }
 
 body {
@@ -12,16 +14,14 @@ body {
     justify-content: center;
     background-color: var(--dark-bg);
 
-    /* Fundal cinematic cu lumini bokeh magenta */
+    /* Efect de lumini de scena tip Bokeh (Magenta & Violet) */
     background-image:
-        radial-gradient(circle at 20% 30%, rgba(255, 0, 255, 0.07) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(128, 0, 255, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(15, 5, 25, 0.5) 0%, transparent 80%);
+        radial-gradient(circle at 10% 20%, rgba(255, 0, 255, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(128, 0, 255, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(20, 10, 30, 0.4) 0%, transparent 80%);
 
-    background-attachment: fixed;
-    color: #ffffff;
+    color: var(--text-white);
     font-family: 'Montserrat', sans-serif;
-    overflow: hidden;
 }
 
 /* Stiluri generale pentru butoane si inputuri in toata aplicatia */

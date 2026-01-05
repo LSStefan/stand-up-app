@@ -2,63 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Înregistrare - Stand-Up App</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Înregistrare | Stand-Up NOW</title>
     <link rel="stylesheet" th:href="@{/css/variables.css}">
-    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/register.css}">
 </head>
-<body>
+<body class="auth-page">
 
-<div class="card custom-card">
-    <div class="card-header">
-        <h4 class="mb-0">Creează Cont Client</h4>
-    </div>
-    <div class="card-body p-4">
-        <form id="registerForm">
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label small fw-bold">Nume</label>
-                    <input type="text" id="regNume" class="form-control" placeholder="Popescu" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label small fw-bold">Prenume</label>
-                    <input type="text" id="regPrenume" class="form-control" placeholder="Ion" required>
-                </div>
+<div class="register-card">
+    <h2>CREEAZĂ CONT</h2>
+
+    <form th:action="@{/register}" method="post">
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="form-label">NUME</label>
+                <input type="text" name="nume" class="form-input-auth" placeholder="ex: Popescu" required>
             </div>
-
-            <div class="mb-3">
-                <label class="form-label small fw-bold">Email</label>
-                <input type="email" id="regEmail" class="form-control" placeholder="exemplu@mail.com" required>
+            <div class="form-group">
+                <label class="form-label">PRENUME</label>
+                <input type="text" name="prenume" class="form-input-auth" placeholder="ex: Andrei" required>
             </div>
-
-            <div class="mb-3">
-                <label class="form-label small fw-bold">Telefon</label>
-                <input type="text" id="regTelefon" class="form-control" placeholder="07xxxxxxxx">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label small fw-bold">Username</label>
-                <input type="text" id="regUsername" class="form-control" placeholder="utilizator123" required>
-            </div>
-
-            <div class="mb-4">
-                <label class="form-label small fw-bold">Parolă</label>
-                <input type="password" id="regParola" class="form-control" placeholder="******" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary-custom text-white text-uppercase">Înregistrare</button>
-        </form>
-
-        <div id="mesajStatus" class="mt-3 text-center" style="display: none;"></div>
-
-        <div class="text-center mt-4">
-            <span class="text-muted small">Ai deja un cont?</span><br>
-            <a href="/login" class="text-decoration-none fw-bold">Înapoi la Logare</a>
         </div>
+
+        <div class="form-group">
+            <label class="form-label">EMAIL</label>
+            <input type="email" name="email" class="form-input-auth" placeholder="andrei@email.com" required>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="form-label">TELEFON</label>
+                <input type="text" name="telefon" class="form-input-auth" placeholder="07xxxxxxxx" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">USERNAME</label>
+                <input type="text" name="username" class="form-input-auth" placeholder="andrei_standup" required>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 30px;">
+            <label class="form-label">PAROLĂ</label>
+            <input type="password" name="password" class="form-input-auth" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn-auth">ÎNREGISTRARE</button>
+    </form>
+
+    <div class="auth-footer">
+        <span style="color: var(--text-dim);">Ai deja cont?</span>
+        <a th:href="@{/login}" style="color: var(--magenta); font-weight: bold; text-decoration: none;">Loghează-te</a>
     </div>
 </div>
 
-<script th:src="@{/js/register.js}"></script>
 </body>
 </html>
