@@ -1,0 +1,107 @@
+/* Containerul care centrează totul pe mijlocul ecranului */
+.auth-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+/* Cardul Transparent (Glassmorphism) */
+.login-card {
+    background: rgba(15, 15, 15, 0.75); /* Fundal închis transparent */
+    backdrop-filter: blur(15px);       /* Efectul de sticlă mată */
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 0, 255, 0.2); /* Contur fin magenta */
+    padding: 3rem;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 0, 255, 0.1);
+    text-align: center;
+}
+
+.login-card h2 {
+    color: var(--magenta);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px var(--magenta-glow);
+}
+
+/* Stil pentru Input-uri */
+.form-group {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-left: 5px;
+}
+
+.form-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form-input:focus {
+    border-color: var(--magenta);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px var(--magenta-glow);
+}
+
+/* Butonul de Login Magenta */
+.btn-login-submit {
+    background: var(--magenta);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.4s;
+    margin-top: 1rem;
+    box-shadow: 0 5px 15px var(--magenta-glow);
+}
+
+.btn-login-submit:hover {
+    background: white;
+    color: var(--magenta);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+}
+
+.auth-link {
+    display: block;
+    margin-top: 2rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.auth-link span {
+    color: var(--magenta);
+    font-weight: 600;
+}
+
+.auth-link:hover span {
+    text-decoration: underline;
+}
