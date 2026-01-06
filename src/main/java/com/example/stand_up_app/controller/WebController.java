@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
 
 @Controller
 public class WebController {
@@ -63,4 +64,11 @@ public class WebController {
     public String paginaRegister() {
         return "register";
     }
+
+//    @GetMapping("/home")
+//    public String dashboardSimplu(Model model) {
+//        // Punem un nume de test ca să nu crape Thymeleaf-ul unde scrie ${username}
+//        model.addAttribute("username", "Vizitator");
+//        return "home";
+//    }
 }
