@@ -36,7 +36,20 @@ public class ComediantRepository {
     public Comediant findById(Long id) {
         String sql = "SELECT * FROM Comedianti WHERE ComediantId = ?";
 
-        return jdbcTemplate.queryForObject(sql,
-                new BeanPropertyRowMapper<>(Comediant.class), id);
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+                Comediant c = new Comediant();
+                c.setComediantId(rs.getLong("ComediantId"));
+                c.setNumeScena(rs.getString("NumeScena"));
+                c.setStil(rs.getString("Stil"));
+                c.setImagineUrl(rs.getString("ImagineUrl"));
+                c.setNume(rs.getString("Nume"));
+                c.setPrenume(rs.getString("Prenume"));
+                return c;
+            }, id);
+        } catch (Exception e) {
+            System.out.println("EROARE JDBC: Nu s-a găsit artistul cu ID " + id);
+            return null;
+        }
     }
 }

@@ -41,4 +41,8 @@ public class Comediant {
 
     public String getImagineUrl() { return imagineUrl; }
     public void setImagineUrl(String imagineUrl) { this.imagineUrl = imagineUrl; }
+
+    public Comediant orElse(Object o) {
+        return null;
+    }
 }

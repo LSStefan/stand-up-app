@@ -35,6 +35,7 @@
         <div class="row justify-content-center text-center py-5 mt-4">
             <div class="col-lg-10">
                 <h1 class="hero-title">E TIMPUL PENTRU <span class="accent-glow">SHOW</span></h1>
+                <a href="/artist/1" class="btn btn-danger">TEST LINK DIRECT CĂTRE ID 1</a>
                 <p class="hero-subtitle">Rezervă-ți locul la cele mai tari spectacole de stand-up comedy din țară.</p>
                 <div class="d-flex justify-content-center gap-3 mt-4">
                     <button class="btn-magenta">RESERVĂ ACUM</button>
@@ -94,7 +95,13 @@
                                 <div class="card-info-box text-center">
                                     <h4 th:text="${com.numeScena}">Artist Name</h4>
                                     <p class="text-white-50 small" th:text="${com.prenume} + ' ' + ${com.nume}">Real Name</p>
-                                    <a th:href="@{/artist/{id}(id=${com.comediantId})}" class="btn-profile-view mt-2 text-decoration-none d-block">VEZI PROFIL</a>
+
+                                    <a th:href="@{/artist/{id}(id=${com.comediantId})}"
+                                       onclick="console.log('Button clicked!');"
+                                       style="position: relative; z-index: 9999; cursor: pointer !important;"
+                                       class="btn-profile-view mt-2 text-decoration-none d-block">
+                                        VEZI PROFIL
+                                    </a>
                                 </div>
                             </div>
                         </div>

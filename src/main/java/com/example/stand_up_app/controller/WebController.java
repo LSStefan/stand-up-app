@@ -74,6 +74,7 @@ public class WebController {
         return "register";
     }
 
+
 //    @GetMapping("/home")
 //    public String dashboardSimplu(Model model) {
 //        // Punem un nume de test ca să nu crape Thymeleaf-ul unde scrie ${username}
