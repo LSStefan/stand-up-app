@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
+import jakarta.servlet.http.HttpSession; // Import pentru sesiune
+
 
 @Controller
 public class WebController {
@@ -20,21 +22,28 @@ public class WebController {
     }
 
     @PostMapping("/login")
-    public String proceseazaLogin(@RequestParam String username, @RequestParam String password) {
+    public String proceseazaLogin(@RequestParam String username, @RequestParam String password,HttpSession session) {
 
         System.out.println("DEBUG: Verificăm în baza de date utilizatorul: " + username);
 
         // Apelăm metoda ta din Repository
         boolean esteValid = utilizatorRepository.verificaLogin(username.trim(), password.trim());
 
+
         if (esteValid) {
-            System.out.println("DEBUG: Succes! Utilizator găsit.");
-            return "redirect:/dashboard";
+            // IMPORTANT: Salvăm numele în sesiune!
+            // Acum 'session' va fi recunoscut pentru că e în paranteza de sus.
+            session.setAttribute("utilizatorLogat", username);
+
+            return "redirect:/home";
         } else {
-            System.out.println("DEBUG: Eșec! Username sau parolă incorectă în tabela Clienti.");
+            // Dacă nu e valid, îl trimitem înapoi cu mesaj de eroare
             return "redirect:/login?error=true";
         }
+
     }
+
+
     // Aceasta PROCESEAZĂ datele (merge când apeși butonul)
     @PostMapping("/register")
     public String proceseazaInregistrare(@RequestParam String username,
