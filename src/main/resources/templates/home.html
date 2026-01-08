@@ -8,6 +8,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/home.css}">
+    <style>
+        html { scroll-behavior: smooth; }
+        .badge-tickets {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 0, 255, 0.8);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+    </style>
 </head>
 <body>
 
@@ -17,8 +32,8 @@
         <div class="nav-right-side">
             <ul class="nav-links-custom">
                 <li><a th:href="@{/home}" class="active">Dashboard</a></li>
-                <li><a href="#">Spectacole</a></li>
-                <li><a href="#">Artiști</a></li>
+                <li><a href="#sectiune-spectacole">Spectacole</a></li>
+                <li><a href="#sectiune-artisti">Artiști</a></li>
             </ul>
             <div class="user-pill-custom">
                 <div class="avatar-circle" th:text="${initiala}">V</div>
@@ -35,36 +50,35 @@
         <div class="row justify-content-center text-center py-5 mt-4">
             <div class="col-lg-10">
                 <h1 class="hero-title">E TIMPUL PENTRU <span class="accent-glow">SHOW</span></h1>
-                <a href="/artist/1" class="btn btn-danger">TEST LINK DIRECT CĂTRE ID 1</a>
                 <p class="hero-subtitle">Rezervă-ți locul la cele mai tari spectacole de stand-up comedy din țară.</p>
                 <div class="d-flex justify-content-center gap-3 mt-4">
-                    <button class="btn-magenta">RESERVĂ ACUM</button>
-                    <button class="btn-outline-white">VEZI ARTIȘTI</button>
+                    <a href="#sectiune-spectacole" class="btn-magenta text-decoration-none d-flex align-items-center justify-content-center">RESERVĂ ACUM</a>
+                    <a href="#sectiune-artisti" class="btn-outline-white text-decoration-none d-flex align-items-center justify-content-center">VEZI ARTIȘTI</a>
                 </div>
             </div>
         </div>
 
-        <div class="row mt-5">
+        <div id="sectiune-spectacole" class="row mt-5">
             <div class="col-12 mb-4 d-flex justify-content-between align-items-end">
                 <div>
                     <h6 class="text-magenta fw-bold tracking-widest">RECOMANDATE</h6>
                     <h2 class="section-title">Spectacole Populare</h2>
                 </div>
-                <a href="#" class="text-decoration-none text-white-50">Vezi toate →</a>
             </div>
 
-            <div class="col-lg-4 col-md-6 mb-4">
+            <div class="col-lg-4 col-md-6 mb-4" th:each="s : ${listaShowuri}">
                 <div class="premium-card">
                     <div class="card-img-box">
-                        <img src="https://images.unsplash.com/photo-1514525253361-b83f859b21c0?auto=format&fit=crop&w=800&q=80" alt="Show">
+                        <img src="https://images.unsplash.com/photo-1514525253361-b83f859b21c0?w=800" alt="Show">
                         <div class="card-gradient-overlay"></div>
-                        <span class="badge-live">LIVE</span>
+                        <span class="badge-live" th:text="${#dates.format(s.data, 'dd MMM')}">DATA</span>
+                        <span class="badge-tickets" th:text="${s.nrBilete} + ' bilete rămase'">0 bilete</span>
                     </div>
                     <div class="card-info-box">
-                        <h4>Teo, Vio și Costel</h4>
-                        <p class="text-white-50 small">📍 Club 99, București</p>
+                        <h4 th:text="${s.titlu}">Titlu Show</h4>
+                        <p class="text-white-50 small">Locație disponibilă la intrare</p>
                         <div class="d-flex justify-content-between align-items-center mt-3">
-                            <span class="price-tag">60 RON</span>
+                            <span class="price-tag" th:text="${s.pret} + ' RON'">0 RON</span>
                             <button class="btn-buy-sm">Bilete</button>
                         </div>
                     </div>
@@ -74,7 +88,7 @@
 
         <hr class="my-5" style="border-color: rgba(255,0,255,0.1);">
 
-        <div class="row mt-5">
+        <div id="sectiune-artisti" class="row mt-5">
             <div class="col-12 mb-4">
                 <h6 class="text-magenta fw-bold tracking-widest">LINE-UP</h6>
                 <h2 class="section-title">Artiștii Stand-Up NOW</h2>
@@ -95,10 +109,7 @@
                                 <div class="card-info-box text-center">
                                     <h4 th:text="${com.numeScena}">Artist Name</h4>
                                     <p class="text-white-50 small" th:text="${com.prenume} + ' ' + ${com.nume}">Real Name</p>
-
                                     <a th:href="@{/artist/{id}(id=${com.comediantId})}"
-                                       onclick="console.log('Button clicked!');"
-                                       style="position: relative; z-index: 9999; cursor: pointer !important;"
                                        class="btn-profile-view mt-2 text-decoration-none d-block">
                                         VEZI PROFIL
                                     </a>

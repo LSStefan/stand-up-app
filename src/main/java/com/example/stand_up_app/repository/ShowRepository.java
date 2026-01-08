@@ -1,0 +1,37 @@
+package com.example.stand_up_app.repository;
+
+import com.example.stand_up_app.model.Show;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+
+@Repository
+public class ShowRepository {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    public List<Show> findAll() {
+        String sql = "SELECT * FROM showuri";
+        try {
+            return jdbcTemplate.query(sql, (rs, rowNum) -> {
+                Show s = new Show();
+                // Debug: Printăm în consolă ce citim ca să vedem unde se oprește
+                System.out.println("Citesc show-ul: " + rs.getString("Titlu"));
+
+                s.setShowID(rs.getInt("ShowID"));
+                s.setTitlu(rs.getString("Titlu"));
+                s.setData(rs.getDate("Data"));
+                s.setNrBilete(rs.getInt("NrBilete"));
+                s.setPret(rs.getInt("Pret"));
+                return s;
+            });
+        } catch (Exception e) {
+            System.err.println("EROARE CRITICĂ la findAll Spectacole: " + e.getMessage());
+            e.printStackTrace(); // Asta îți va arăta rândul exact în consolă
+            return List.of(); // Returnăm o listă goală în caz de eroare, ca să nu crape toată pagina
+        }
+    }
+}

@@ -1,7 +1,9 @@
 package com.example.stand_up_app.controller;
 
 import com.example.stand_up_app.model.Comediant;
+import com.example.stand_up_app.model.Show;
 import com.example.stand_up_app.repository.ComediantRepository;
+import com.example.stand_up_app.repository.ShowRepository;
 import jakarta.servlet.http.HttpSession; // Import pentru sesiune
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ public class HomeController {
 
     @Autowired
     private ComediantRepository comediantRepo;
+    @Autowired
+    private ShowRepository showRepo;
 
     @GetMapping("/home")
     public String home(Model model, HttpSession session) {
@@ -41,6 +45,9 @@ public class HomeController {
         List<Comediant> lista = comediantRepo.findAll();
         model.addAttribute("listaComedianti", lista);
         model.addAttribute("totalArtisti", lista.size());
+
+        List<Show> listaShowuri = showRepo.findAll();
+        model.addAttribute("listaShowuri", listaShowuri);
 
         return "home";
     }
