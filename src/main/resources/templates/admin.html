@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel | Stand-Up NOW</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/home.css}"> <style>
+    .admin-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 0, 255, 0.2);
+        border-radius: 15px;
+        padding: 30px;
+        transition: 0.3s;
+        text-decoration: none;
+        color: white;
+        display: block;
+    }
+    .admin-card:hover {
+        background: rgba(255, 0, 255, 0.1);
+        transform: translateY(-5px);
+        color: #ff00ff;
+    }
+    .stat-number { font-size: 2.5rem; font-weight: 800; color: #ff00ff; }
+</style>
+</head>
+<body class="bg-black text-white">
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1>Panou de <span class="text-magenta">Administrare</span></h1>
+        <a th:href="@{/home}" class="btn btn-outline-light">Înapoi la Site</a>
+    </div>
+
+    <div class="row mb-5 text-center">
+        <div class="col-md-6">
+            <div class="admin-card">
+                <h6>ARTIȘTI TOTALI</h6>
+                <div class="stat-number" th:text="${totalArtisti}">0</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="admin-card">
+                <h6>SPECTACOLE ACTIVE</h6>
+                <div class="stat-number" th:text="${totalSpectacole}">0</div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mb-4">Ce vrei să gestionezi astăzi?</h3>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <a th:href="@{/admin/artisti}" class="admin-card text-center">
+                <h3>🎭 Gestionare Artiști</h3>
+                <p class="text-white-50">Adaugă, editează sau șterge comedianți din listă.</p>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a th:href="@{/admin/spectacole}" class="admin-card text-center">
+                <h3>🎟️ Gestionare Spectacole</h3>
+                <p class="text-white-50">Modifică prețuri, locații și numărul de bilete.</p>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a th:href="@{/admin/utilizatori}" class="admin-card text-center">
+                <h3>👥 Utilizatori</h3>
+                <p class="text-white-50">Vezi cine s-a înregistrat pe platformă.</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,5 +1,7 @@
 package com.example.stand_up_app.controller;
 
+import com.example.stand_up_app.repository.ComediantRepository;
+import com.example.stand_up_app.repository.ShowRepository;
 import com.example.stand_up_app.repository.UtilizatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession; // Import pentru sesiune
 
+import java.util.Scanner;
+
+
+
+
 
 @Controller
 public class WebController {
@@ -16,31 +23,41 @@ public class WebController {
     @Autowired
     private UtilizatorRepository utilizatorRepository; // Legătura cu Repository-ul tău
 
+    @Autowired
+    private ComediantRepository comediantRepo; // Avem nevoie de el pentru statistici
+
+    @Autowired
+    private ShowRepository showRepo; // Avem nevoie de el pentru statistici
+
     @GetMapping("/login")
     public String paginaLogin() {
         return "login";
     }
 
     @PostMapping("/login")
-    public String proceseazaLogin(@RequestParam String username, @RequestParam String password,HttpSession session) {
+    public String proceseazaLogin(@RequestParam String username, @RequestParam String password, HttpSession session) {
 
         System.out.println("DEBUG: Verificăm în baza de date utilizatorul: " + username);
 
-        // Apelăm metoda ta din Repository
+        // 1. Verificăm dacă user-ul și parola există în baza de date
         boolean esteValid = utilizatorRepository.verificaLogin(username.trim(), password.trim());
 
-
         if (esteValid) {
-            // IMPORTANT: Salvăm numele în sesiune!
-            // Acum 'session' va fi recunoscut pentru că e în paranteza de sus.
+            // 2. Salvăm numele în sesiune pentru a-l recunoaște pe paginile protejate
             session.setAttribute("utilizatorLogat", username);
 
+            // 3. Verificăm dacă cel care s-a logat este Adminul
+            if (username.equalsIgnoreCase("admin")) {
+                System.out.println("DEBUG: Admin detectat. Redirecționare către Dashboard.");
+                return "redirect:/admin"; // Îl trimitem la panoul de control
+            }
+
+            // 4. Dacă nu e admin, merge la pagina normală de utilizator
             return "redirect:/home";
         } else {
-            // Dacă nu e valid, îl trimitem înapoi cu mesaj de eroare
+            // Dacă datele sunt greșite
             return "redirect:/login?error=true";
         }
-
     }
 
 
@@ -73,6 +90,7 @@ public class WebController {
     public String paginaRegister() {
         return "register";
     }
+
 
 
 //    @GetMapping("/home")

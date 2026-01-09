@@ -34,4 +34,27 @@ public class ShowRepository {
             return List.of(); // Returnăm o listă goală în caz de eroare, ca să nu crape toată pagina
         }
     }
+
+
+    // Metoda pentru adăugare
+    public int save(Show s) {
+        String sql = "INSERT INTO showuri (Titlu, Data, NrBilete, Pret) VALUES (?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, s.getTitlu(), s.getData(), s.getNrBilete(), s.getPret());
+    }
+
+    public void deleteById(Integer id) {
+        // 1. Ștergem plățile asociate rezervărilor acestui show
+        String sqlPlati = "DELETE FROM Plati WHERE RezervareID IN (SELECT RezervareID FROM Rezervari WHERE ShowID = ?)";
+        jdbcTemplate.update(sqlPlati, id);
+
+        // 2. Ștergem rezervările acestui show
+        String sqlRezervari = "DELETE FROM Rezervari WHERE ShowID = ?";
+        jdbcTemplate.update(sqlRezervari, id);
+
+        // 3. În sfârșit, ștergem show-ul
+        String sqlShow = "DELETE FROM showuri WHERE ShowID = ?";
+        jdbcTemplate.update(sqlShow, id);
+    }
+
+
 }

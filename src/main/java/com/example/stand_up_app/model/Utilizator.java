@@ -1,7 +1,7 @@
 package com.example.stand_up_app.model;
 
 public class Utilizator {
-    private int id;
+    Integer utilizatorID;
     private String nume;
     private String prenume;
     private String email;
@@ -13,8 +13,10 @@ public class Utilizator {
     public Utilizator() {}
 
     // Getters si Setters (necesari pentru ca REST API-ul sa poata citi datele)
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public Integer getUtilizatorID() {
+        return utilizatorID;
+    }
+    public void setId(int id) { this.utilizatorID = id; }
 
     public String getNume() { return nume; }
     public void setNume(String nume) { this.nume = nume; }

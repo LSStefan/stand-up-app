@@ -52,4 +52,16 @@ public class ComediantRepository {
             return null;
         }
     }
+
+    public void save(Comediant c) {
+        String sql = "INSERT INTO Comedianti (Nume, Prenume, NumeScena, Stil, ImagineUrl) VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, c.getNume(), c.getPrenume(), c.getNumeScena(), c.getStil(), c.getImagineUrl());
+    }
+
+    public void deleteById(Long id) {
+        // Atenție: Dacă un artist are spectacole legate de el, va trebui să ștergi spectacolele mai întâi
+        // sau să pui Cascade Delete în SQL, exact cum am făcut la show-uri!
+        String sql = "DELETE FROM Comedianti WHERE ComediantID = ?";
+        jdbcTemplate.update(sql, id);
+    }
 }

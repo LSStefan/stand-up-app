@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vizualizare Utilizatori</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body class="bg-black text-white p-5">
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h2 class="mb-0">Listă <span class="text-magenta">Utilizatori</span></h2>
+            <p class="text-white-50">Vizualizează membrii comunității Stand-Up</p>
+        </div>
+        <div>
+            <a th:href="@{/admin}" class="btn btn-outline-light me-2">Dashboard</a>
+            <a th:href="@{/home}" class="btn btn-outline-magenta text-magenta">Vezi Site</a>
+        </div>
+    </div>
+
+    <div class="table-responsive shadow-lg">
+        <table class="table table-dark table-hover border-magenta align-middle">
+            <thead class="table-magenta text-white">
+            <tr>
+                <th>Username</th>
+                <th>Nume Complet</th>
+                <th>Email</th>
+                <th>Telefon</th>
+                <th class="text-center">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${listaUtilizatori}">
+                <td th:text="${u.username}" class="fw-bold text-magenta"></td>
+                <td th:text="${u.prenume} + ' ' + ${u.nume}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.telefon != null && !u.telefon.isEmpty() ? u.telefon : 'Nespecificat'}" class="text-white-50"></td>
+                <td class="text-center">
+                    <span th:if="${u.username == 'admin'}" class="badge bg-magenta">Admin</span>
+                    <span th:unless="${u.username == 'admin'}" class="badge border border-secondary text-secondary">Client</span>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(listaUtilizatori)}">
+                <td colspan="5" class="text-center p-5 text-white-50 italic">
+                    Nu s-a găsit niciun utilizator înregistrat.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
