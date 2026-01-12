@@ -48,6 +48,13 @@
         </form>
     </div>
 
+    <div class="d-flex justify-content-end gap-2 mb-3">
+        <span class="small text-white-50 align-self-center">Sortează după:</span>
+        <a th:href="@{/admin/spectacole(sort='pret')}" class="btn btn-outline-light btn-sm">Preț</a>
+        <a th:href="@{/admin/spectacole(sort='data')}" class="btn btn-outline-light btn-sm">Data</a>
+        <a th:href="@{/admin/spectacole}" class="btn btn-outline-secondary btn-sm">Reset</a>
+    </div>
+
     <div class="table-responsive">
         <table class="table table-dark table-hover border-magenta align-middle">
             <thead class="table-magenta text-white">
