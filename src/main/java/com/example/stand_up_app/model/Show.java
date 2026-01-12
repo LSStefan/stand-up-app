@@ -1,7 +1,13 @@
 package com.example.stand_up_app.model;
 
 import java.util.Date;
-
+/**
+ * Clasa model destinata reprezentarii unui spectacol de stand-up.
+ * Face legatura intre un artist, locatie si data desfasurarii,
+ * fiind utilizata pentru gestionarea evenimentelor in panoul de administrare.
+ * * @author Stefanita Lican
+ * @version 10 Ianuarie 2026
+ */
 public class Show {
     private Integer showID; // Mapare pentru ShowID
     private String titlu;   // Mapare pentru Titlu
@@ -9,7 +15,7 @@ public class Show {
     private Integer nrBilete; // Mapare pentru NrBilete
     private Integer pret;   // Mapare pentru Pret
 
-    // Constructor gol OBLIGATORIU
+    // Constructor gol
     public Show() {}
 
     // Getters și Setters cu nume camelCase corect

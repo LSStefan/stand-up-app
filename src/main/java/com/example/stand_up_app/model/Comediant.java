@@ -1,5 +1,15 @@
 package com.example.stand_up_app.model; // Modifică aici cu pachetul tău
 
+
+
+/**
+ * Clasa model care reprezinta un comediant in cadrul aplicatiei.
+ * Contine informatii despre identitatea artistului, descrierea acestuia
+ * si alte detalii relevante pentru prezentarea pe site.
+ * * @author Stefanita Lican
+ * @version 10 Ianuarie 2026
+ */
+
 public class Comediant {
     // Acestea trebuie să fie exact ca în Baza de Date
     private Long comediantId;
@@ -9,7 +19,7 @@ public class Comediant {
     private String stil;
     private String imagineUrl;
 
-    // 1. Constructor fără argumente (Esențial pentru Spring/JDBC)
+    // Constructor fara argumente (Esențial pentru Spring/JDBC)
     public Comediant() {
     }
 

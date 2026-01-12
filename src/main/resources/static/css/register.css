@@ -1,4 +1,4 @@
-/* Fundalul rămâne exact cum l-ai cerut */
+
 .auth-page {
     margin: 0;
     min-height: 100vh;
@@ -10,10 +10,10 @@
         radial-gradient(circle at 50% 0%, rgba(255, 0, 255, 0.15) 0%, transparent 60%),
         radial-gradient(circle at 50% 50%, #10051a 0%, #050108 100%);
     font-family: 'Montserrat', sans-serif;
-    padding: 20px; /* Am redus padding-ul paginii ca să nu împingă cardul */
+    padding: 20px;
 }
 
-/* Cardul - Am redus padding-ul vertical de la 50px la 25px */
+
 .register-card {
     width: 100%;
     max-width: 580px;
@@ -39,7 +39,7 @@
 
 .register-card h2 {
     color: var(--text-white);
-    font-size: 24px; /* Puțin mai mic ca să câștige spațiu */
+    font-size: 24px;
     font-weight: 800;
     text-align: center;
     letter-spacing: 2px;
@@ -52,16 +52,16 @@
     color: var(--text-dim);
     text-align: center;
     font-size: 13px;
-    margin-bottom: 20px; /* Redus de la 35px */
+    margin-bottom: 20px;
     font-style: italic;
 }
 
-/* TextBox-urile - Am redus padding-ul de la 14px la 10px */
+
 .form-input-auth {
     width: 100%;
     background: rgba(255, 255, 255, 0.05) !important;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px; /* Puțin mai ascuțite ca să fie mai joase */
+    border-radius: 10px;
     padding: 10px 18px;
     color: #fff !important;
     font-size: 14px;
@@ -75,7 +75,7 @@
     box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
 }
 
-/* Label-ul - Am redus margin-bottom de la 12px la 5px */
+
 .form-label {
     display: block;
     font-size: 10px;
@@ -89,12 +89,12 @@
     transition: all 0.3s ease;
 }
 
-/* Distanța între grupuri - Am redus-o drastic de la 28px la 10px */
+
 .form-group {
     margin-bottom: 10px;
 }
 
-/* Butonul - Am redus margin-top și padding-ul */
+
 .btn-auth {
     width: 100%;
     margin-top: 15px;

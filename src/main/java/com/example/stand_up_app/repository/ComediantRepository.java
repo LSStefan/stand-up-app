@@ -8,19 +8,27 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
+/**
+ * Repository dedicat operatiunilor asupra datelor artistilor.
+ * Gestioneaza stocarea, actualizarea si extragerea informatiilor despre
+ * comedianti din baza de date, asigurand datele necesare pentru paginile de prezentare.
+ * * @author Stefanita Lican
+ * @version 10 Ianuarie 2026
+ */
+
 @Repository
 public class ComediantRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    // Metoda care aduce toți comediantii pentru pagina principală
+    // Metoda care aduce toți comediantii pentru pagina principala
     public List<Comediant> findAll() {
         String sql = "SELECT * FROM Comedianti";
 
         List<Comediant> lista = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Comediant.class));
 
-        // PRINT ÎN CONSOLĂ
         System.out.println("--- DEBUG REPOSITORY ---");
         System.out.println("Număr de rânduri găsite în DB: " + lista.size());
 
@@ -32,7 +40,7 @@ public class ComediantRepository {
         return lista;
     }
 
-    // Metoda care caută un singur artist pentru pagina de detalii
+    // Metoda care cauta un singur artist pentru pagina de detalii
     public Comediant findById(Long id) {
         String sql = "SELECT * FROM Comedianti WHERE ComediantId = ?";
 
@@ -59,8 +67,6 @@ public class ComediantRepository {
     }
 
     public void deleteById(Long id) {
-        // Atenție: Dacă un artist are spectacole legate de el, va trebui să ștergi spectacolele mai întâi
-        // sau să pui Cascade Delete în SQL, exact cum am făcut la show-uri!
         String sql = "DELETE FROM Comedianti WHERE ComediantID = ?";
         jdbcTemplate.update(sql, id);
     }

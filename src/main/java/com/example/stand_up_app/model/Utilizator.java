@@ -1,5 +1,14 @@
 package com.example.stand_up_app.model;
 
+
+/**
+ * Clasa model care incapsuleaza datele unui utilizator al sistemului.
+ * Aceasta entitate este utilizata atat pentru procesul de autentificare,
+ * cat si pentru gestionarea profilului de client sau administrator.
+ * * @author Stefanita Lican
+ * @version 9 Ianuarie 2026
+ */
+
 public class Utilizator {
     Integer utilizatorID;
     private String nume;
@@ -9,7 +18,7 @@ public class Utilizator {
     private String username;
     private String parola;
 
-    // Constructor gol necesar pentru framework
+    // Constructor gol
     public Utilizator() {}
 
     // Getters si Setters (necesari pentru ca REST API-ul sa poata citi datele)

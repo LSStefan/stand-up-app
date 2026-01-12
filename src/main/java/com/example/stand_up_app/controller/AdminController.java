@@ -13,6 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+/** * Controller pentru gestionarea panoului de administrare.
+ * Permite managementul artiștilor, spectacolelor și vizualizarea utilizatorilor.
+ * @author Stefanita Lican
+ * @version 10 Ianuarie 2026
+ */
+
 
 @Controller
 @RequestMapping("/admin") // Toate rutele din acest controller vor începe cu /admin
@@ -30,10 +36,10 @@ public class AdminController {
     // Ruta: /admin
     @GetMapping
     public String adminDashboard(Model model, HttpSession session) {
-        // Verificăm dacă există cineva logat în sesiune
+        // Verificam daca e cineva logat in sesiune
         String user = (String) session.getAttribute("utilizatorLogat");
 
-        // Dacă sesiunea e goală SAU userul nu este "admin", dă-l afară!
+        // Dacă sesiunea e goală sau userul nu este "admin" nu are acces
         if (user == null || !user.equalsIgnoreCase("admin")) {
             return "redirect:/login"; // Îl trimite la login dacă încearcă să "fenteze" URL-ul
         }
@@ -72,7 +78,7 @@ public class AdminController {
         return "redirect:/admin/spectacole";
     }
 
-    // Metodă utilitară privată pentru a nu repeta codul de verificare
+
     private boolean isUserAdmin(HttpSession session) {
         String user = (String) session.getAttribute("utilizatorLogat");
         return user != null && user.equalsIgnoreCase("admin");
@@ -115,12 +121,12 @@ public class AdminController {
 
     @GetMapping("/utilizatori")
     public String listaUtilizatori(Model model, HttpSession session) {
-        // 1. Verificăm dacă e logat admin-ul
 
-        // 2. Luăm toți utilizatorii din baza de date
+
+        //Luam toți utilizatorii din baza de date
         List<Utilizator> toti = utilizatorRepo.findAll();
 
-        // 3. Trimitem lista către HTML
+        // trimit lista catre html ca sa o afisez
         model.addAttribute("listaUtilizatori", toti);
 
         return "admin_useri";

@@ -22,6 +22,6 @@ public class StandUpApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(StandUpApplication.class, args);
 		System.out.println("\n>>> Aplicatia Stand-Up a pornit cu succes!");
-		System.out.println(">>> Acceseaza in browser: http://localhost:8080/login\n");
+		System.out.println(">>> Acceseaza in browser: http://localhost:8080/index\n");
 	}
 }

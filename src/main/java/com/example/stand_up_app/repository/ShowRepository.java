@@ -7,6 +7,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
+
+/**
+ * Repository responsabil pentru managementul evenimentelor (spectacolelor).
+ * Realizeaza operatiuni de salvare, stergere si listare a show-urilor,
+ * facilitand organizarea acestora in functie de data si disponibilitate.
+ * * @author Stefanita Lican
+ * @version 10 Ianuarie 2026
+ */
+
 @Repository
 public class ShowRepository {
 
@@ -18,7 +27,7 @@ public class ShowRepository {
         try {
             return jdbcTemplate.query(sql, (rs, rowNum) -> {
                 Show s = new Show();
-                // Debug: Printăm în consolă ce citim ca să vedem unde se oprește
+                // Debug
                 System.out.println("Citesc show-ul: " + rs.getString("Titlu"));
 
                 s.setShowID(rs.getInt("ShowID"));
@@ -30,8 +39,8 @@ public class ShowRepository {
             });
         } catch (Exception e) {
             System.err.println("EROARE CRITICĂ la findAll Spectacole: " + e.getMessage());
-            e.printStackTrace(); // Asta îți va arăta rândul exact în consolă
-            return List.of(); // Returnăm o listă goală în caz de eroare, ca să nu crape toată pagina
+            e.printStackTrace();
+            return List.of(); // Returnam o lista goala în caz de eroare, ca sa nu crape toata pagina
         }
     }
 
@@ -43,15 +52,13 @@ public class ShowRepository {
     }
 
     public void deleteById(Integer id) {
-        // 1. Ștergem plățile asociate rezervărilor acestui show
         String sqlPlati = "DELETE FROM Plati WHERE RezervareID IN (SELECT RezervareID FROM Rezervari WHERE ShowID = ?)";
         jdbcTemplate.update(sqlPlati, id);
 
-        // 2. Ștergem rezervările acestui show
         String sqlRezervari = "DELETE FROM Rezervari WHERE ShowID = ?";
         jdbcTemplate.update(sqlRezervari, id);
 
-        // 3. În sfârșit, ștergem show-ul
+        // Sterge showul
         String sqlShow = "DELETE FROM showuri WHERE ShowID = ?";
         jdbcTemplate.update(sqlShow, id);
     }

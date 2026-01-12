@@ -1,4 +1,4 @@
-/* FUNDAL ȘI RESET */
+
 body {
     margin: 0;
     background-color: #050108;
@@ -7,7 +7,7 @@ body {
     overflow-x: hidden;
 }
 
-/* NAVBAR ORIZONTAL */
+
 .navbar-custom {
     position: fixed;
     top: 0;
@@ -92,7 +92,7 @@ body {
     font-size: 14px;
 }
 
-/* BACKLIGHT MAGENTA */
+/* backlight */
 .page-content {
     margin-top: 70px;
     position: relative;
@@ -111,7 +111,7 @@ body {
     pointer-events: none;
 }
 
-/* HERO SECTION */
+
 .hero-title {
     font-size: clamp(2rem, 8vw, 4.5rem);
     font-weight: 900;
@@ -155,7 +155,7 @@ body {
     transition: 0.3s;
 }
 
-/* PREMIUM CARDS */
+
 .premium-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.07);
@@ -235,9 +235,7 @@ body {
 .card-img-box img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Aceasta asigură că poza umple boxul */
+    object-fit: cover;
 
-    /* VALOAREA CARE MUȚĂ POZA: */
-    /* Primul parametru e orizontal (center), al doilea e vertical (Ex: 20% o urcă, 80% o coboară) */
     object-position: center 20%;
 }

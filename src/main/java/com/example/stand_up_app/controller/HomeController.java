@@ -15,6 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+/**
+ * Controller destinat interfetei publice pentru clienti.
+ * Gestioneaza afisarea listei de spectacole disponibile, detaliile artistilor
+ * si paginile informative ale aplicatiei Stand-Up NOW.
+ * * @author Stefanita Lican
+ * @version 9 Ianuarie 2026
+ */
+
 @Controller
 public class HomeController {
 
@@ -25,23 +33,23 @@ public class HomeController {
 
     @GetMapping("/home")
     public String home(Model model, HttpSession session) {
-        // 1. Gestionare Utilizator Logat
-        // Luăm user-ul salvat în sesiune (numele trebuie să fie același ca în LoginController)
+        // Gestionare Utilizator Logat
+        // Luam user-ul salvat în sesiune
         String username = (String) session.getAttribute("utilizatorLogat");
 
         if (username == null || username.isEmpty()) {
             username = "Vizitator"; // Nume default dacă nu e nimeni logat
         }
 
-        // Extragem prima literă pentru avatar
+        // Extragem prima litera pentru avatar
         String initiala = username.substring(0, 1).toUpperCase();
 
-        // Trimitem datele despre user către HTML
+        // Trimitem datele despre user catre HTML
         model.addAttribute("numeUtilizator", username);
         model.addAttribute("initiala", initiala);
 
 
-        // 2. Gestionare Listă Comedianți (Codul tău original)
+        // Gestionare lsita comedianti
         List<Comediant> lista = comediantRepo.findAll();
         model.addAttribute("listaComedianti", lista);
         model.addAttribute("totalArtisti", lista.size());
@@ -55,19 +63,19 @@ public class HomeController {
     @GetMapping({"/artist/{id}", "/artist/{id}"})
     public String paginaProfilArtist(@PathVariable("id") Long id, Model model, HttpSession session) {
 
-        // APELĂM REPOSITORY-UL (FĂRĂ .orElse pentru că e JDBC)
+        // apelam repoul pt functiile din el
         Comediant c = comediantRepo.findById(id);
 
-        // DEBUG: Vedem în consolă dacă JDBC a extras datele
+        // DEBUG
         if (c == null) {
             System.out.println("EROARE: JDBC nu a găsit artistul cu ID-ul " + id);
             return "redirect:/home";
         }
 
-        // Trimitem datele către HTML
+        // Trimitem datele catre HTML
         model.addAttribute("artist", c);
 
-        // Datele pentru Navbar (Nume și Inițială)
+        // Datele pentru Navbar (Nume și initiala)
         String username = (String) session.getAttribute("utilizatorLogat");
         model.addAttribute("numeUtilizator", username != null ? username : "Vizitator");
         model.addAttribute("initiala", (username != null ? username.substring(0,1) : "V").toUpperCase());

@@ -36,8 +36,23 @@
                 <li><a href="#sectiune-artisti">Artiști</a></li>
             </ul>
             <div class="user-pill-custom">
-                <div class="avatar-circle" th:text="${initiala}">V</div>
-                <span class="user-name" th:text="${numeUtilizator}">Vizitator</span>
+                <a th:href="${session.utilizatorLogat == 'admin'} ? '/admin' : '#'"
+                   th:style="${session.utilizatorLogat == 'admin'} ? 'cursor: pointer; text-decoration: none;' : 'cursor: default; text-decoration: none;'">
+
+                    <div class="avatar-circle"
+                         th:text="${initiala}"
+                         th:style="${session.utilizatorLogat == 'admin'} ? 'border: 2px solid var(--magenta); box-shadow: 0 0 10px var(--magenta); color: white !important;' : 'color: white !important;'">
+                        V
+                    </div>
+                </a>
+
+                <div class="d-flex flex-column" style="margin-left: 10px;">
+                    <span class="user-name" th:text="${numeUtilizator}" style="color: white;">Vizitator</span>
+                    <small th:if="${session.utilizatorLogat == 'admin'}"
+                           style="color: var(--magenta); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">
+                        ADMIN MODE
+                    </small>
+                </div>
             </div>
         </div>
     </div>

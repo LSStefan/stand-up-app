@@ -1,4 +1,4 @@
-/* --- ANIMATII SI GLOW-URI --- */
+
 
 .hero-wrapper {
     text-align: center;
@@ -14,9 +14,8 @@
 .main-title {
     font-family: 'Montserrat', sans-serif;
     font-size: clamp(4rem, 15vw, 8.5rem);
-    font-weight: 200; /* Stand-Up subtire */
+    font-weight: 200;
     color: #fff !important;
-   /* text-transform: uppercase; */
     line-height: 0.8;
     letter-spacing: 4px;
     margin-bottom: 0;
@@ -25,7 +24,7 @@
 }
 
 .bold-highlight {
-    font-weight: 900; /* NOW Bold */
+    font-weight: 900;
     color: var(--magenta) !important;
     letter-spacing: -4px;
     display: block;
@@ -34,16 +33,16 @@
     animation: pulseGlow 2.5s infinite alternate;
 }
 
-/* --- EFECTUL DE HOVER (MAGIA) --- */
 
-/* 1. Cand dai hover pe titlu, NOW straluceste mult mai tare */
+
+
 .main-title:hover .bold-highlight {
     text-shadow: 0 0 30px var(--magenta), 0 0 60px var(--magenta), 0 0 100px var(--magenta);
     transform: scale(1.02);
     filter: brightness(1.5);
 }
 
-/* 2. Cand dai hover pe titlu, MOTTO-ul se aprinde */
+
 .main-title:hover ~ .tagline {
     color: rgba(255, 255, 255, 0.9) !important;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
@@ -51,7 +50,7 @@
     transform: translateY(-5px);
 }
 
-/* --- MOTTO (TAGLINE) --- */
+
 
 .tagline {
     font-family: 'Playfair Display', serif;
@@ -75,14 +74,14 @@
     transition: all 0.6s ease;
 }
 
-/* Cand se aprinde mottoul, se aprinde si linia */
+
 .main-title:hover ~ .tagline::after {
     opacity: 0.8;
     width: 120px;
     box-shadow: 0 0 15px var(--magenta);
 }
 
-/* --- BUTOANE --- */
+
 
 .button-group {
     margin-top: 3.5rem;
@@ -131,7 +130,7 @@
     box-shadow: 0 0 20px var(--magenta-glow);
 }
 
-/* --- KEYFRAMES --- */
+
 
 @keyframes pulseGlow {
     from { text-shadow: 0 0 15px var(--magenta), 0 0 25px var(--magenta-glow); }

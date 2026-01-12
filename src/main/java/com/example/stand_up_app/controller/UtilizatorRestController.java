@@ -7,6 +7,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+/**
+ * Controller de tip REST destinat operatiunilor asincrone de inregistrare.
+ * Gestioneaza primirea datelor in format JSON de la interfata de utilizator
+ * si coordoneaza procesul de salvare a noilor clienti in baza de date.
+ * * @author Stefanita Lican
+ * @version 9 Ianuarie 2026
+ */
+
 @RestController
 @RequestMapping("/api") // Toate rutele de aici încep cu /api (ex: /api/register)
 public class UtilizatorRestController {
@@ -15,8 +23,8 @@ public class UtilizatorRestController {
     private UtilizatorRepository utilizatorRepository;
 
     /**
-     * Endpoint pentru înregistrarea unui utilizator nou.
-     * Acesta primește datele sub formă de JSON din frontend.
+     * Endpoint pentru inregistrarea unui utilizator nou.
+     * Acesta primeste datele sub forma de JSON din frontend.
      */
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> date) {
