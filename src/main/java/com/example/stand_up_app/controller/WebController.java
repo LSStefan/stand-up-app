@@ -130,6 +130,12 @@ public class WebController {
         return "register";
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // Șterge toate datele din sesiune
+        return "redirect:/login?logout=true";
+    }
+
 
 
 //    @GetMapping("/home")
