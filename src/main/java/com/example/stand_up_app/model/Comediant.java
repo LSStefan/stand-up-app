@@ -19,6 +19,17 @@ public class Comediant {
     private String stil;
     private String imagineUrl;
 
+    private String descriere;
+
+
+    public String getDescriere() {
+        return descriere;
+    }
+
+    public void setDescriere(String descriere) {
+        this.descriere = descriere;
+    }
+    
     // Constructor fara argumente (Esențial pentru Spring/JDBC)
     public Comediant() {
     }

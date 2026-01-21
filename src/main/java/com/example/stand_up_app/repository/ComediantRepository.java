@@ -53,6 +53,7 @@ public class ComediantRepository {
                 c.setImagineUrl(rs.getString("ImagineUrl"));
                 c.setNume(rs.getString("Nume"));
                 c.setPrenume(rs.getString("Prenume"));
+                c.setDescriere(rs.getString("Descriere"));
                 return c;
             }, id);
         } catch (Exception e) {
@@ -62,8 +63,15 @@ public class ComediantRepository {
     }
 
     public void save(Comediant c) {
-        String sql = "INSERT INTO Comedianti (Nume, Prenume, NumeScena, Stil, ImagineUrl) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, c.getNume(), c.getPrenume(), c.getNumeScena(), c.getStil(), c.getImagineUrl());
+        String sql = "INSERT INTO Comedianti (Nume, Prenume, NumeScena, Stil, ImagineUrl, Descriere) VALUES (?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                c.getNume(),
+                c.getPrenume(),
+                c.getNumeScena(),
+                c.getStil(),
+                c.getImagineUrl(),
+                c.getDescriere() // <--- Noua coloană
+        );
     }
 
     public void deleteById(Long id) {

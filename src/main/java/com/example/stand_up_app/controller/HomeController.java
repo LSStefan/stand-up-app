@@ -2,8 +2,11 @@ package com.example.stand_up_app.controller;
 
 import com.example.stand_up_app.model.Comediant;
 import com.example.stand_up_app.model.Show;
+import com.example.stand_up_app.model.Utilizator;
 import com.example.stand_up_app.repository.ComediantRepository;
+import com.example.stand_up_app.repository.RezervareRepository;
 import com.example.stand_up_app.repository.ShowRepository;
+import com.example.stand_up_app.repository.UtilizatorRepository;
 import jakarta.servlet.http.HttpSession; // Import pentru sesiune
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller destinat interfetei publice pentru clienti.
@@ -30,6 +35,10 @@ public class HomeController {
     private ComediantRepository comediantRepo;
     @Autowired
     private ShowRepository showRepo;
+    @Autowired
+    private UtilizatorRepository utilizatorRepo;
+    @Autowired
+    private RezervareRepository rezervareRepo;
 
     @GetMapping("/home")
     public String home(Model model, HttpSession session) {
@@ -81,6 +90,93 @@ public class HomeController {
         model.addAttribute("initiala", (username != null ? username.substring(0,1) : "V").toUpperCase());
 
         return "detalii_artist";
+    }
+
+
+    @GetMapping("/profil")
+    public String afiseazaProfil(HttpSession session, Model model) {
+        String usernameLogat = (String) session.getAttribute("utilizatorLogat");
+        if (usernameLogat == null) return "redirect:/login";
+
+        Utilizator user = utilizatorRepo.gasesteDupaUsername(usernameLogat);
+
+        // Datele din query-urile de BD
+        Double totalBani = utilizatorRepo.getTotalCheltuit(usernameLogat);
+        Integer nrSpectacole = utilizatorRepo.getNumarSpectacole(usernameLogat);
+        boolean isVip = utilizatorRepo.esteUtilizatorVIP(usernameLogat);
+
+        model.addAttribute("user", user);
+        model.addAttribute("totalCheltuit", totalBani != null ? totalBani : 0);
+        model.addAttribute("nrSpectacole", nrSpectacole != null ? nrSpectacole : 0);
+        model.addAttribute("isVip", isVip);
+        model.addAttribute("initialaProfil", user.getNume().substring(0, 1).toUpperCase());
+
+        return "profil_utilizator";
+    }
+
+
+    @PostMapping("/rezerva")
+    public String proceseazaRezervare(@RequestParam int showId, @RequestParam int nrBilete, HttpSession session) {
+        String username = (String) session.getAttribute("utilizatorLogat");
+
+        Utilizator user = utilizatorRepo.gasesteDupaUsername(username);
+
+        if (user != null && user.getClientId() != null) {
+            // Acum user.getClientId() nu va mai fi null
+            rezervareRepo.creeazaRezervare(user.getClientId(), showId, nrBilete);
+            return "redirect:/home?success";
+        } else {
+            // Log pentru debug dacă tot e null
+            System.out.println("DEBUG: Userul a fost gasit dar ID-ul este NULL!");
+            return "redirect:/home?error";
+        }
+    }
+
+    @GetMapping("/biletele-mele")
+    public String afiseazaBilete(HttpSession session, Model model) {
+        String username = (String) session.getAttribute("utilizatorLogat");
+        if (username == null) return "redirect:/login";
+
+        // Luăm ID-ul clientului (asigură-te că gasesteDupaUsername funcționează corect)
+        Utilizator user = utilizatorRepo.gasesteDupaUsername(username);
+
+        if (user != null) {
+            List<Map<String, Object>> bilete = rezervareRepo.getBileteleMele(user.getClientId());
+            model.addAttribute("bilete", bilete);
+            model.addAttribute("initiala", user.getPrenume().substring(0,1).toUpperCase());
+        }
+
+        return "biletele_mele";
+    }
+
+    @PostMapping("/plateste")
+    public String proceseazaPlata(@RequestParam int rezervareId,
+                                  @RequestParam double suma,
+                                  HttpSession session) {
+        String username = (String) session.getAttribute("utilizatorLogat");
+        Utilizator user = utilizatorRepo.gasesteDupaUsername(username);
+
+        if (user != null) {
+            rezervareRepo.platesteRezervarea(rezervareId, suma, user.getClientId());
+        }
+
+        return "redirect:/biletele-mele?paid=true";
+    }
+
+    @PostMapping("/actualizeaza-profil")
+    public String actualizeazaProfil(@RequestParam String nume,
+                                     @RequestParam String prenume,
+                                     @RequestParam String email,
+                                     @RequestParam String telefon,
+                                     HttpSession session) {
+        String username = (String) session.getAttribute("utilizatorLogat");
+        Utilizator user = utilizatorRepo.gasesteDupaUsername(username);
+
+        if (user != null) {
+            utilizatorRepo.actualizeazaProfil(user.getClientId(), nume, prenume, email, telefon);
+            return "redirect:/profil?success";
+        }
+        return "redirect:/profil?error";
     }
 
 

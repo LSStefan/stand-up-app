@@ -3,6 +3,7 @@ package com.example.stand_up_app.controller;
 import com.example.stand_up_app.model.Comediant;
 import com.example.stand_up_app.model.Show;
 import com.example.stand_up_app.model.Utilizator;
+import com.example.stand_up_app.repository.AdminRepository;
 import com.example.stand_up_app.repository.ComediantRepository;
 import com.example.stand_up_app.repository.ShowRepository;
 import com.example.stand_up_app.repository.UtilizatorRepository;
@@ -35,19 +36,36 @@ public class AdminController {
     @Autowired
     private UtilizatorRepository utilizatorRepo;
 
+    @Autowired
+    private AdminRepository adminRepo;
+
+
+
     // Ruta: /admin
     @GetMapping
     public String adminDashboard(Model model, HttpSession session) {
-        // Verificam daca e cineva logat in sesiune
         String user = (String) session.getAttribute("utilizatorLogat");
 
-        // Daca sesiunea e goala sau userul nu este "admin" nu are acces
         if (user == null || !user.equalsIgnoreCase("admin")) {
-            return "redirect:/login"; // Îl trimite la login dacă încearcă să "fenteze" URL-ul
+            return "redirect:/login";
         }
 
+        // Statistici de bază
         model.addAttribute("totalArtisti", comediantRepo.findAll().size());
         model.addAttribute("totalSpectacole", showRepo.findAll().size());
+
+        // --- DATE PENTRU RAPOARTE COMPLEXE ---
+        model.addAttribute("topArtisti", adminRepo.getTopArtisti());
+        model.addAttribute("clientiPremium", adminRepo.getClientiPremium());
+        model.addAttribute("showuriGoale", adminRepo.getShowuriFaraVanzari());
+        model.addAttribute("jurnalVanzari", adminRepo.getJurnalCompletVanzari());
+        model.addAttribute("ocupare", adminRepo.getGradOcupare());
+
+        // --- DATE PENTRU DROPDOWN-URI (Alocare Many-to-Many) ---
+        // Acestea trimit listele necesare pentru formularul de alocare
+        model.addAttribute("listaComedianti", comediantRepo.findAll());
+        model.addAttribute("listaShowuri", showRepo.findAll());
+
         return "admin";
     }
 
@@ -74,10 +92,13 @@ public class AdminController {
         return "admin_spectacole";
     }
 
-    // Ruta: /admin/spectacole/salveaza
+    // Ruta actualizată pentru a salva și imaginea
     @PostMapping("/spectacole/salveaza")
-    public String salveazaShow(@RequestParam String titlu, @RequestParam String data,
-                               @RequestParam Integer bilete, @RequestParam Integer pret,
+    public String salveazaShow(@RequestParam String titlu,
+                               @RequestParam String data,
+                               @RequestParam Integer bilete,
+                               @RequestParam Integer pret,
+                               @RequestParam String urlPoza, // 1. Adăugăm parametrul nou
                                HttpSession session) {
         if (!isUserAdmin(session)) return "redirect:/login";
 
@@ -86,6 +107,8 @@ public class AdminController {
         s.setData(java.sql.Date.valueOf(data));
         s.setNrBilete(bilete);
         s.setPret(pret);
+        s.setImagineUrl(urlPoza); // 2. Setăm URL-ul imaginii pe obiectul Show
+
         showRepo.save(s);
         return "redirect:/admin/spectacole";
     }
@@ -154,5 +177,14 @@ public class AdminController {
         model.addAttribute("listaUtilizatori", toti);
 
         return "admin_useri";
+    }
+
+    // Punem ruta completa aici ca sa nu mai depindem de ce e scris deasupra clasei
+    // RUTA SIMPLIFICATĂ
+    @PostMapping("/aloca")
+    public String alocaArtistLaShow(@RequestParam Integer comediantId, @RequestParam Integer showId) {
+        System.out.println(">>> ALERTĂ: CERERE PRIMITĂ!");
+        adminRepo.alocaArtistLaShow(comediantId, showId);
+        return "redirect:/admin";
     }
 }

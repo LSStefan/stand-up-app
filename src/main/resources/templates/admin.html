@@ -4,24 +4,41 @@
     <meta charset="UTF-8">
     <title>Admin Panel | Stand-Up NOW</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/home.css}"> <style>
-    .admin-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 0, 255, 0.2);
-        border-radius: 15px;
-        padding: 30px;
-        transition: 0.3s;
-        text-decoration: none;
-        color: white;
-        display: block;
-    }
-    .admin-card:hover {
-        background: rgba(255, 0, 255, 0.1);
-        transform: translateY(-5px);
-        color: #ff00ff;
-    }
-    .stat-number { font-size: 2.5rem; font-weight: 800; color: #ff00ff; }
-</style>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <style>
+        .admin-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            transition: 0.3s;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+        .admin-card:hover {
+            background: rgba(255, 0, 255, 0.1);
+            transform: translateY(-5px);
+            color: #ff00ff;
+        }
+        .stat-number { font-size: 2.5rem; font-weight: 800; color: #ff00ff; }
+
+        /* Stil extra pentru tabele in interiorul cardurilor */
+        .table-admin { color: white !important; border-color: rgba(255, 0, 255, 0.2); }
+        .text-magenta { color: #ff00ff !important; }
+
+        /* Stil pentru campurile de selectie */
+        .form-select-dark {
+            background-color: #111 !important;
+            border: 1px solid rgba(255, 0, 255, 0.3) !important;
+            color: white !important;
+        }
+        .btn-magenta {
+            background-color: #ff00ff !important;
+            color: white !important;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body class="bg-black text-white">
 
@@ -46,28 +63,143 @@
         </div>
     </div>
 
-    <h3 class="mb-4">Ce vrei să gestionezi astăzi?</h3>
-    <div class="row g-4">
+    <h3 class="mb-4 text-magenta">Gestiune</h3>
+    <div class="row g-4 mb-5">
         <div class="col-md-4">
             <a th:href="@{/admin/artisti}" class="admin-card text-center">
-                <h3>🎭 Gestionare Artiști</h3>
-                <p class="text-white-50">Adaugă, editează sau șterge comedianți din listă.</p>
+                <h3>🎭 Artiști</h3>
+                <p class="text-white-50">Adaugă, editează sau șterge comedianți.</p>
             </a>
         </div>
         <div class="col-md-4">
             <a th:href="@{/admin/spectacole}" class="admin-card text-center">
-                <h3>🎟️ Gestionare Spectacole</h3>
-                <p class="text-white-50">Modifică prețuri, locații și numărul de bilete.</p>
+                <h3>🎟️ Spectacole</h3>
+                <p class="text-white-50">Modifică prețuri și numărul de bilete.</p>
             </a>
         </div>
         <div class="col-md-4">
             <a th:href="@{/admin/utilizatori}" class="admin-card text-center">
                 <h3>👥 Utilizatori</h3>
-                <p class="text-white-50">Vezi cine s-a înregistrat pe platformă.</p>
+                <p class="text-white-50">Vezi clienții înregistrați.</p>
             </a>
         </div>
+
+        <div class="col-12 mt-4">
+            <div class="admin-card">
+                <h4 class="text-magenta mb-4">🔗 Alocare Artiști pe Spectacol</h4>
+                <form th:action="@{/admin/aloca}" method="post" class="row g-3 align-items-end">
+
+                    <div class="col-md-5">
+                        <label class="form-label small text-white-50">Alege Artistul:</label>
+                        <select name="comediantId" class="form-select form-select-dark" required>
+                            <option value="" disabled selected>Selectează un artist...</option>
+                            <option th:each="com : ${listaComedianti}"
+                                    th:value="${com.comediantId}"
+                                    th:text="${com.numeScena}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-5">
+                        <label class="form-label small text-white-50">Alege Spectacolul:</label>
+                        <select name="showId" class="form-select form-select-dark" required>
+                            <option value="" disabled selected>Selectează un spectacol...</option>
+                            <option th:each="s : ${listaShowuri}"
+                                    th:value="${s.showID}"
+                                    th:text="${s.titlu}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-magenta w-100">CONFIRMĂ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    <h3 class="mb-4 text-magenta">Raportare și Analiză <small class="text-white-50 fs-6">(Interogări Complexe)</small></h3>
+
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="admin-card">
+                <h5 class="mb-4">📋 Jurnal Complet Vânzări <small class="text-white-50">(JOIN 4 Tabele)</small></h5>
+                <div class="table-responsive">
+                    <table class="table table-admin">
+                        <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Artist</th>
+                            <th>Spectacol</th>
+                            <th>Suma</th>
+                            <th>Metoda</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="j : ${jurnalVanzari}">
+                            <td th:text="${j.Username}"></td>
+                            <td th:text="${j.Artist}"></td>
+                            <td th:text="${j.Titlu}"></td>
+                            <td class="text-magenta fw-bold" th:text="${j.SumaPlata} + ' RON'"></td>
+                            <td th:text="${j.Metoda}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="admin-card h-100">
+                <h5 class="mb-4">⭐ Top Performanță <small class="text-white-50">(Subcerere FROM)</small></h5>
+                <div th:each="a : ${topArtisti}" class="d-flex justify-content-between align-items-center mb-3 p-2 border-bottom border-secondary">
+                    <span class="fw-bold" th:text="${a.Nume}"></span>
+                    <span class="badge rounded-pill bg-magenta" th:text="${a.TotalBilete} + ' bilete vândute'"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="admin-card h-100">
+                <h5 class="mb-4">📈 Grad Ocupare <small class="text-white-50">(Subcerere SELECT)</small></h5>
+                <div th:each="o : ${ocupare}" class="mb-3">
+                    <div class="d-flex justify-content-between small mb-1">
+                        <span th:text="${o.Titlu}"></span>
+                        <span><b th:text="${o.Vandute}"></b> / <span th:text="${o.Capacitate}"></span></span>
+                    </div>
+                    <div class="progress" style="height: 8px; background: #222;">
+                        <div class="progress-bar" role="progressbar"
+                             style="background-color: #ff00ff;"
+                             th:style="'width: ' + (${o.Capacitate} > 0 ? (${o.Vandute} * 100 / ${o.Capacitate}) : 0) + '%'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="admin-card">
+                <h5 class="mb-4">🏆 Clienți Premium <small class="text-white-50">(Subcerere HAVING)</small></h5>
+                <p class="small text-white-50 mb-3">Utilizatori cu cheltuieli peste media platformei:</p>
+                <div th:each="c : ${clientiPremium}" class="d-flex justify-content-between border-bottom border-secondary py-2">
+                    <span th:text="${c.Username}"></span>
+                    <span class="text-magenta fw-bold" th:text="${c.Total} + ' RON'"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="admin-card border-danger">
+                <h5 class="text-danger mb-4">🚨 Atenție: Show-uri Fără Vânzări <small class="text-white-50">(NOT EXISTS)</small></h5>
+                <ul class="list-unstyled">
+                    <li th:each="s : ${showuriGoale}" class="mb-2 text-white-50">
+                        • <span class="text-white" th:text="${s.Titlu}"></span>
+                        (Capacitate: <span th:text="${s.NrBilete}"></span>)
+                    </li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

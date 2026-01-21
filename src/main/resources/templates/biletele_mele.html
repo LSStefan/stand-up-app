@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Biletele Mele | Stand-Up NOW</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <style>
+        .ticket-card {
+            background: #0f0f0f;
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-left: 6px solid var(--magenta);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            padding: 25px;
+            transition: 0.3s;
+        }
+        .ticket-card:hover { transform: translateY(-3px); border-color: var(--magenta); }
+
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .status-platit { background: #28a745; color: white; }
+        .status-neplatit { background: #ffc107; color: #000; }
+
+        .price-info { font-size: 0.9rem; color: #aaa; }
+        .total-amount { color: var(--magenta); font-weight: 800; font-size: 1.2rem; }
+    </style>
+</head>
+<body class="bg-black text-white">
+
+<div class="container py-5 mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h2 class="fw-900">BILETELE <span class="text-magenta">MELE</span></h2>
+        <a th:href="@{/home}" class="btn btn-outline-light rounded-pill px-4">Înapoi</a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-10 mx-auto" th:each="b : ${bilete}">
+            <div class="ticket-card d-flex justify-content-between align-items-center">
+
+                <div>
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <small class="text-magenta fw-bold">REZERVARE #<span th:text="${b.RezervareID}"></span></small>
+                        <span th:class="${b.Status == 'PLATIT' ? 'status-badge status-platit' : 'status-badge status-neplatit'}"
+                              th:text="${b.Status}"></span>
+                    </div>
+
+                    <h3 class="fw-800 mb-2" th:text="${b.Titlu}">Titlu Spectacol</h3>
+
+                    <div class="price-info">
+                        <span>Bilete: <b class="text-white" th:text="${b.NrBilete}">1</b></span>
+                        <span class="mx-2">|</span>
+                        <span>Preț/Bilet: <b class="text-white" th:text="${b.PretUnitar} + ' RON'">30 RON</b></span>
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <small class="text-white-50 d-block">TOTAL DE PLATĂ</small>
+                    <span class="total-amount d-block mb-2" th:text="${b.PretTotal} + ' RON'">0 RON</span>
+
+                    <form th:if="${b.Status == 'NEPLATIT'}" th:action="@{/plateste}" method="post">
+                        <input type="hidden" name="rezervareId" th:value="${b.RezervareID}">
+                        <input type="hidden" name="suma" th:value="${b.PretTotal}">
+                        <button type="submit" class="btn btn-success rounded-pill btn-sm px-4 fw-bold">
+                            PLĂTEȘTE ACUM
+                        </button>
+                    </form>
+
+                    <div th:if="${b.Status == 'PLATIT'}" class="text-success small fw-bold">
+                        <i class="bi bi-check-circle-fill"></i> PLATĂ CONFIRMATĂ
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

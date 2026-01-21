@@ -15,6 +15,34 @@ public class Show {
     private Integer nrBilete; // Mapare pentru NrBilete
     private Integer pret;   // Mapare pentru Pret
 
+    // Adaugă acest câmp în clasa Show
+    private String imagineUrl;
+
+
+    // Variabila care va stoca numele artistilor concatenati din DB
+    private String numeArtisti;
+
+
+    // Adaugă Getter și Setter (generat automat cu Click Dreapta -> Generate -> Getter and Setter)
+    public String getImagineUrl() {
+        return imagineUrl;
+    }
+
+    public void setImagineUrl(String imagineUrl) {
+        this.imagineUrl = imagineUrl;
+    }
+
+    // Getter
+    public String getNumeArtisti() {
+        return numeArtisti;
+    }
+
+    // Setter
+    public void setNumeArtisti(String numeArtisti) {
+        this.numeArtisti = numeArtisti;
+    }
+
+
     // Constructor gol
     public Show() {}
 

@@ -23,32 +23,49 @@ public class ShowRepository {
     private JdbcTemplate jdbcTemplate;
 
     public List<Show> findAll() {
-        String sql = "SELECT * FROM showuri";
+        // Varianta compatibilă cu versiuni vechi de SQL Server (2014/2016)
+        String sql = "SELECT S.*, " +
+                "STUFF((SELECT ', ' + A.NumeScena " +
+                "       FROM Comedianti A " +
+                "       JOIN [Comediant-Show] CS ON A.ComediantID = CS.ComediantID " +
+                "       WHERE CS.ShowID = S.ShowID " +
+                "       FOR XML PATH('')), 1, 2, '') AS NumeArtisti " +
+                "FROM showuri S";
         try {
             return jdbcTemplate.query(sql, (rs, rowNum) -> {
                 Show s = new Show();
-                // Debug
-                System.out.println("Citesc show-ul: " + rs.getString("Titlu"));
-
                 s.setShowID(rs.getInt("ShowID"));
                 s.setTitlu(rs.getString("Titlu"));
                 s.setData(rs.getDate("Data"));
                 s.setNrBilete(rs.getInt("NrBilete"));
                 s.setPret(rs.getInt("Pret"));
+                s.setImagineUrl(rs.getString("ImagineUrl"));
+
+                // Mapăm coloana virtuală NumeArtisti
+                String artisti = rs.getString("NumeArtisti");
+                s.setNumeArtisti(artisti != null ? artisti : "Line-up în curs de confirmare");
+
                 return s;
             });
         } catch (Exception e) {
-            System.err.println("EROARE CRITICĂ la findAll Spectacole: " + e.getMessage());
-            e.printStackTrace();
-            return List.of(); // Returnam o lista goala în caz de eroare, ca sa nu crape toata pagina
+            System.err.println("EROARE la findAll: " + e.getMessage());
+            return List.of();
         }
     }
 
 
-    // Metoda pentru adăugare
+    // Metoda actualizată pentru a include și imaginea
     public int save(Show s) {
-        String sql = "INSERT INTO showuri (Titlu, Data, NrBilete, Pret) VALUES (?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, s.getTitlu(), s.getData(), s.getNrBilete(), s.getPret());
+        // Am adăugat ImagineUrl în lista de coloane și un al 5-lea semn de întrebare
+        String sql = "INSERT INTO showuri (Titlu, Data, NrBilete, Pret, ImagineUrl) VALUES (?, ?, ?, ?, ?)";
+
+        return jdbcTemplate.update(sql,
+                s.getTitlu(),
+                s.getData(),
+                s.getNrBilete(),
+                s.getPret(),
+                s.getImagineUrl() // <--- Noua valoare trimisă către DB
+        );
     }
 
     public void deleteById(Integer id) {

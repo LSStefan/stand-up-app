@@ -17,27 +17,41 @@
             border: 2px solid #ff00ff;
             box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
         }
+        /* Am adăugat acest stil pentru a păstra formatarea textului din DB */
+        .bio-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ccc;
+            white-space: pre-line; /* Această linie păstrează Enter-urile din descriere */
+        }
+        .text-magenta { color: #ff00ff !important; }
     </style>
 </head>
 <body class="bg-dark text-white">
 
 <div class="container profile-header">
-    <a th:href="@{/home}" class="btn btn-outline-light mb-4">← Înapoi la Dashboard</a>
+    <a th:href="@{/home}" class="btn btn-outline-light mb-4">← Înapoi la pagina home</a>
 
     <div class="row align-items-center">
         <div class="col-md-5 text-center">
             <img th:src="${artist.imagineUrl}" class="artist-big-img" alt="Artist">
         </div>
         <div class="col-md-7">
-            <h6 class="text-magenta fw-bold" th:text="${artist.stil}">STIL</h6>
+            <h6 class="text-magenta fw-bold text-uppercase tracking-widest" th:text="${artist.stil}">STIL</h6>
             <h1 class="display-3 fw-bold" th:text="${artist.numeScena}">NUME ARTIST</h1>
             <p class="lead text-white-50" th:text="${artist.prenume} + ' ' + ${artist.nume}">Nume Real</p>
-            <hr style="border-color: #ff00ff; width: 50px; border-width: 3px;">
-            <p>Placeholder descriere artist</p>
-            <button class="btn-magenta mt-3">RESERVĂ BILET</button>
+
+            <hr style="border-color: #ff00ff; width: 60px; border-width: 3px; opacity: 1;">
+
+            <h3 class="text-magenta mt-4 mb-3">Descriere</h3>
+            <p class="bio-text" th:text="${artist.descriere != null && !artist.descriere.isEmpty() ? artist.descriere : 'Biografia acestui artist va fi disponibilă în curând.'}">
+                Textul din baza de date va înlocui acest mesaj.
+            </p>
+
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
