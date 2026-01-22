@@ -6,14 +6,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/home.css}">
     <style>
-        .form-control:focus {
+        .form-control:focus, .form-control.bg-dark:focus {
             border-color: #ff00ff;
             box-shadow: 0 0 0 0.25rem rgba(255, 0, 255, 0.25);
+            background-color: #1a1a1a;
+            color: white;
         }
-        /* Asigurăm că inputurile arată la fel ca în pagina de spectacole */
-        .form-control.bg-dark::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
+        .form-control.bg-dark::placeholder { color: rgba(255, 255, 255, 0.5); }
+        .table-magenta { background-color: #ff00ff; }
+        textarea.form-control { resize: none; }
     </style>
 </head>
 <body class="bg-black text-white p-5">
@@ -27,37 +28,57 @@
         </div>
     </div>
 
-    <div class="card bg-dark text-white p-4 mb-5 border-magenta">
-        <h4 class="mb-4 text-magenta">Adaugă Artist Nou</h4>
-        <form th:action="@{/admin/artisti/salveaza}" method="post" class="row g-3">
+    <div class="card bg-dark text-white p-4 mb-5 border-magenta shadow-lg">
+        <h4 class="mb-4 text-magenta" th:text="${artistEditat != null} ? 'Editează Artist' : 'Adaugă Artist Nou'">Adaugă Artist Nou</h4>
+
+        <form th:action="${artistEditat != null} ? @{/admin/artisti/update} : @{/admin/artisti/salveaza}" method="post" class="row g-3">
+
+            <input type="hidden" name="comediantId" th:value="${artistEditat != null ? artistEditat.comediantId : ''}">
 
             <div class="col-md-2">
                 <label class="form-label small text-white-50">Nume</label>
-                <input type="text" name="nume" class="form-control bg-dark text-white border-secondary" placeholder="Popescu" required>
+                <input type="text" name="nume" class="form-control bg-dark text-white border-secondary"
+                       th:value="${artistEditat != null ? artistEditat.nume : ''}" placeholder="Popescu" required>
             </div>
 
             <div class="col-md-2">
                 <label class="form-label small text-white-50">Prenume</label>
-                <input type="text" name="prenume" class="form-control bg-dark text-white border-secondary" placeholder="Ion" required>
+                <input type="text" name="prenume" class="form-control bg-dark text-white border-secondary"
+                       th:value="${artistEditat != null ? artistEditat.prenume : ''}" placeholder="Ion" required>
             </div>
 
             <div class="col-md-2">
                 <label class="form-label small text-white-50">Nume Scenă</label>
-                <input type="text" name="numeScena" class="form-control bg-dark text-white border-secondary" placeholder="Micutzu" required>
+                <input type="text" name="numeScena" class="form-control bg-dark text-white border-secondary"
+                       th:value="${artistEditat != null ? artistEditat.numeScena : ''}" placeholder="Micutzu" required>
             </div>
 
             <div class="col-md-2">
                 <label class="form-label small text-white-50">Stil Stand-up</label>
-                <input type="text" name="stil" class="form-control bg-dark text-white border-secondary" placeholder="Roast" required>
+                <input type="text" name="stil" class="form-control bg-dark text-white border-secondary"
+                       th:value="${artistEditat != null ? artistEditat.stil : ''}" placeholder="Roast" required>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <label class="form-label small text-white-50">URL Imagine</label>
-                <input type="text" name="urlPoza" class="form-control bg-dark text-white border-secondary" placeholder="https://...">
+                <input type="text" name="urlPoza" class="form-control bg-dark text-white border-secondary"
+                       th:value="${artistEditat != null ? artistEditat.imagineUrl : ''}" placeholder="https://...">
+            </div>
+
+            <div class="col-md-10">
+                <label class="form-label small text-white-50">Descriere / Biografie Artist</label>
+                <textarea name="descriere" class="form-control bg-dark text-white border-secondary"
+                          rows="2" placeholder="Scrie ceva despre artist..."
+                          th:text="${artistEditat != null ? artistEditat.descriere : ''}"></textarea>
             </div>
 
             <div class="col-md-2 d-flex align-items-end">
-                <button type="submit" class="btn btn-magenta w-100 fw-bold">SALVEAZĂ</button>
+                <button type="submit" class="btn btn-magenta w-100 fw-bold"
+                        th:text="${artistEditat != null} ? 'ACTUALIZEAZĂ' : 'SALVEAZĂ'">SALVEAZĂ</button>
+            </div>
+
+            <div class="col-12" th:if="${artistEditat != null}">
+                <a th:href="@{/admin/artisti}" class="btn btn-sm btn-link text-white-50">Anulează editarea</a>
             </div>
         </form>
     </div>
@@ -67,8 +88,7 @@
             <thead class="table-magenta text-white">
             <tr>
                 <th style="width: 80px;">Poză</th>
-                <th>Nume</th>
-                <th>Prenume</th>
+                <th>Nume Complet</th>
                 <th>Nume Scenă</th>
                 <th>Stil</th>
                 <th class="text-center">Acțiuni</th>
@@ -80,22 +100,21 @@
                     <img th:src="${art.imagineUrl != null && !art.imagineUrl.isEmpty() ? art.imagineUrl : 'https://via.placeholder.com/50'}"
                          style="width: 45px; height: 45px; object-fit: cover; border-radius: 50%; border: 1px solid #ff00ff;">
                 </td>
-                <td th:text="${art.nume}"></td>
-                <td th:text="${art.prenume}"></td>
+                <td th:text="${art.prenume} + ' ' + ${art.nume}"></td>
                 <td th:text="${art.numeScena}" class="fw-bold text-magenta"></td>
                 <td th:text="${art.stil}"></td>
                 <td class="text-center">
+                    <a th:href="@{/admin/artisti/editare/{id}(id=${art.comediantId})}"
+                       class="btn btn-outline-warning btn-sm me-2">Editează</a>
+
                     <a th:href="@{/admin/artisti/sterge/{id}(id=${art.comediantId})}"
                        class="btn btn-outline-danger btn-sm"
-                       onclick="return confirm('Ești sigur că vrei să ștergi acest artist?')">
-                        Șterge
-                    </a>
+                       onclick="return confirm('Ești sigur că vrei să ștergi acest artist?')">Șterge</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-
 </body>
 </html>

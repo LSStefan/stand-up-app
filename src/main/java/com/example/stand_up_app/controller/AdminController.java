@@ -50,19 +50,16 @@ public class AdminController {
             return "redirect:/login";
         }
 
-        // Statistici de bază
         model.addAttribute("totalArtisti", comediantRepo.findAll().size());
         model.addAttribute("totalSpectacole", showRepo.findAll().size());
 
-        // --- DATE PENTRU RAPOARTE COMPLEXE ---
         model.addAttribute("topArtisti", adminRepo.getTopArtisti());
         model.addAttribute("clientiPremium", adminRepo.getClientiPremium());
         model.addAttribute("showuriGoale", adminRepo.getShowuriFaraVanzari());
         model.addAttribute("jurnalVanzari", adminRepo.getJurnalCompletVanzari());
         model.addAttribute("ocupare", adminRepo.getGradOcupare());
 
-        // --- DATE PENTRU DROPDOWN-URI (Alocare Many-to-Many) ---
-        // Acestea trimit listele necesare pentru formularul de alocare
+
         model.addAttribute("listaComedianti", comediantRepo.findAll());
         model.addAttribute("listaShowuri", showRepo.findAll());
 
@@ -76,7 +73,7 @@ public class AdminController {
 
         List<Show> spectacole = showRepo.findAll();
 
-        // Sortare în memorie folosind Java Streams
+        // Sortare in memorie folosind Java Streams
         if ("pret".equals(sort)) {
             spectacole = spectacole.stream()
                     .sorted(Comparator.comparingInt(Show::getPret))
@@ -92,7 +89,6 @@ public class AdminController {
         return "admin_spectacole";
     }
 
-    // Ruta actualizată pentru a salva și imaginea
     @PostMapping("/spectacole/salveaza")
     public String salveazaShow(@RequestParam String titlu,
                                @RequestParam String data,
@@ -179,12 +175,34 @@ public class AdminController {
         return "admin_useri";
     }
 
-    // Punem ruta completa aici ca sa nu mai depindem de ce e scris deasupra clasei
-    // RUTA SIMPLIFICATĂ
     @PostMapping("/aloca")
     public String alocaArtistLaShow(@RequestParam Integer comediantId, @RequestParam Integer showId) {
         System.out.println(">>> ALERTĂ: CERERE PRIMITĂ!");
         adminRepo.alocaArtistLaShow(comediantId, showId);
         return "redirect:/admin";
+    }
+
+
+    @GetMapping("/artisti/editare/{id}")
+    public String afiseazaPaginaEditare(@PathVariable("id") Integer id, Model model, HttpSession session) {
+        if (!isUserAdmin(session)) return "redirect:/login";
+
+
+        Comediant artistCauta = comediantRepo.findById(Long.valueOf(id));
+
+
+        model.addAttribute("artist", artistCauta);
+
+
+        return "editare_artist";
+    }
+
+
+    @PostMapping("/artisti/update")
+    public String updateArtistInDB(@ModelAttribute Comediant artist, HttpSession session) {
+        if (!isUserAdmin(session)) return "redirect:/login";
+
+        comediantRepo.updateComediant(artist);
+        return "redirect:/admin/artisti";
     }
 }

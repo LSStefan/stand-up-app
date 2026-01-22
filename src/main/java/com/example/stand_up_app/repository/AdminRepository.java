@@ -12,10 +12,7 @@ public class AdminRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    /**
-     * 1. Top Performanță Artiști (Subcerere în clauza FROM)
-     * Folosește tabela de joncțiune [Comediant-Show] conform diagramei tale.
-     */
+    //top cei mai buni comedianti dupa nr de bilete vandute
     public List<Map<String, Object>> getTopArtisti() {
         String sql = "SELECT X.Nume, X.TotalBilete FROM (" +
                 "  SELECT A.NumeScena AS Nume, SUM(R.NrBilete) AS TotalBilete " +
@@ -28,10 +25,7 @@ public class AdminRepository {
         return jdbcTemplate.queryForList(sql);
     }
 
-    /**
-     * 2. Jurnal Complet Vânzări (JOIN pe 5 tabele)
-     * Reunește informații despre Clienti, Rezervări, Plăți, Show-uri și Artiști.
-     */
+
     public List<Map<String, Object>> getJurnalCompletVanzari() {
         String sql = "SELECT C.Username, A.NumeScena AS Artist, S.Titlu, P.SumaPlata, P.Metoda " +
                 "FROM Plati P " +
@@ -44,10 +38,7 @@ public class AdminRepository {
         return jdbcTemplate.queryForList(sql);
     }
 
-    /**
-     * 3. Grad Ocupare Show-uri (Subcerere în clauza SELECT)
-     * Calculează în timp real biletele vândute pentru fiecare show.
-     */
+
     public List<Map<String, Object>> getGradOcupare() {
         String sql = "SELECT S.Titlu, S.NrBilete AS Capacitate, " +
                 "(SELECT ISNULL(SUM(Rez.NrBilete), 0) FROM Rezervari Rez WHERE Rez.ShowID = S.ShowID) AS Vandute " +
@@ -55,10 +46,8 @@ public class AdminRepository {
         return jdbcTemplate.queryForList(sql);
     }
 
-    /**
-     * 4. Clienți Premium (Subcerere în clauza HAVING)
-     * Selectează clienții care au cheltuit mai mult decât media tuturor plăților.
-     */
+    //afiseaza clientii cu bani cheltuiti > average client
+
     public List<Map<String, Object>> getClientiPremium() {
         String sql = "SELECT Cl.Username, SUM(Pl.SumaPlata) AS Total " +
                 "FROM Clienti Cl " +
@@ -69,10 +58,7 @@ public class AdminRepository {
         return jdbcTemplate.queryForList(sql);
     }
 
-    /**
-     * 5. Show-uri Fără Vânzări (Clauza NOT EXISTS)
-     * Identifică evenimentele care nu au nicio rezervare înregistrată.
-     */
+
     public List<Map<String, Object>> getShowuriFaraVanzari() {
         String sql = "SELECT S.Titlu, S.NrBilete FROM Showuri S " +
                 "WHERE NOT EXISTS (SELECT 1 FROM Rezervari R WHERE R.ShowID = S.ShowID)";

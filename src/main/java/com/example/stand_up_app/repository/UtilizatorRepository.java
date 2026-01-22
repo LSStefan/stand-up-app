@@ -47,14 +47,12 @@ public class UtilizatorRepository {
         try {
             return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Utilizator.class), username);
         } catch (Exception e) {
-            return null; // Returnăm null dacă nu găsim userul
+            return null; // Returnam null daca nu se gaseste userul
         }
     }
 
-    // 1. Interogare cu JOIN (Simple) - Total bani cheltuiți
     public Double getTotalCheltuit(String username) {
-        // JOIN între Clienti (ClientId), Rezervari (ClientId) și Plati (RezervareID)
-        // Am pus SumaPlata pentru că așa apare în poza ta în tabela Plati
+
         String sql = "SELECT SUM(P.SumaPlata) " +
                 "FROM Clienti C " +
                 "JOIN Rezervari R ON C.ClientId = R.ClientId " +
@@ -64,9 +62,8 @@ public class UtilizatorRepository {
         return rezultat != null ? rezultat : 0.0;
     }
 
-    // 2. Interogare cu Subcerere (Complexă) - Verifică status VIP
+
     public boolean esteUtilizatorVIP(String username) {
-        // Folosim ClientId peste tot conform diagramei
         String sql = "SELECT COUNT(*) FROM Clienti C " +
                 "WHERE C.username = ? AND " +
                 "(SELECT SUM(NrBilete) FROM Rezervari WHERE ClientId = C.ClientId) > " +
@@ -75,7 +72,6 @@ public class UtilizatorRepository {
         return count != null && count > 0;
     }
 
-    // 3. Interogare cu JOIN (Simple) - Număr spectacole la care are rezervări
     public Integer getNumarSpectacole(String username) {
         // Folosim NrBilete (din tabela Rezervari) și ClientId
         String sql = "SELECT COUNT(R.RezervareID) " +

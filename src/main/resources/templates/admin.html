@@ -87,9 +87,7 @@
         <div class="col-12 mt-4">
             <div class="admin-card">
                 <h4 class="text-magenta mb-4">🔗 Alocare Artiști pe Spectacol</h4>
-                <form th:action="@{/admin/aloca}" method="post" class="row g-3 align-items-end">
-
-                    <div class="col-md-5">
+                <form th:action="@{/aloca}" method="post" class="row g-3 align-items-end">                    <div class="col-md-5">
                         <label class="form-label small text-white-50">Alege Artistul:</label>
                         <select name="comediantId" class="form-select form-select-dark" required>
                             <option value="" disabled selected>Selectează un artist...</option>
@@ -115,13 +113,14 @@
                 </form>
             </div>
         </div>
+    </div>
 
-    <h3 class="mb-4 text-magenta">Raportare și Analiză <small class="text-white-50 fs-6">(Interogări Complexe)</small></h3>
+    <h3 class="mb-4 text-magenta">Raportare și Analiză <small class="text-white-50 fs-6"></small></h3>
 
     <div class="row g-4">
         <div class="col-12">
             <div class="admin-card">
-                <h5 class="mb-4">📋 Jurnal Complet Vânzări <small class="text-white-50">(JOIN 4 Tabele)</small></h5>
+                <h5 class="mb-4">📋 Jurnal Complet Vânzări <small class="text-white-50"></small></h5>
                 <div class="table-responsive">
                     <table class="table table-admin">
                         <thead>
@@ -149,7 +148,7 @@
 
         <div class="col-md-6">
             <div class="admin-card h-100">
-                <h5 class="mb-4">⭐ Top Performanță <small class="text-white-50">(Subcerere FROM)</small></h5>
+                <h5 class="mb-4">⭐ Top Performanță <small class="text-white-50"></small></h5>
                 <div th:each="a : ${topArtisti}" class="d-flex justify-content-between align-items-center mb-3 p-2 border-bottom border-secondary">
                     <span class="fw-bold" th:text="${a.Nume}"></span>
                     <span class="badge rounded-pill bg-magenta" th:text="${a.TotalBilete} + ' bilete vândute'"></span>
@@ -159,7 +158,7 @@
 
         <div class="col-md-6">
             <div class="admin-card h-100">
-                <h5 class="mb-4">📈 Grad Ocupare <small class="text-white-50">(Subcerere SELECT)</small></h5>
+                <h5 class="mb-4">📈 Grad Ocupare <small class="text-white-50"></small></h5>
                 <div th:each="o : ${ocupare}" class="mb-3">
                     <div class="d-flex justify-content-between small mb-1">
                         <span th:text="${o.Titlu}"></span>
@@ -176,7 +175,7 @@
 
         <div class="col-md-6">
             <div class="admin-card">
-                <h5 class="mb-4">🏆 Clienți Premium <small class="text-white-50">(Subcerere HAVING)</small></h5>
+                <h5 class="mb-4">🏆 Clienți Premium <small class="text-white-50"></small></h5>
                 <p class="small text-white-50 mb-3">Utilizatori cu cheltuieli peste media platformei:</p>
                 <div th:each="c : ${clientiPremium}" class="d-flex justify-content-between border-bottom border-secondary py-2">
                     <span th:text="${c.Username}"></span>

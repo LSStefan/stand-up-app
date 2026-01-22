@@ -100,7 +100,6 @@ public class HomeController {
 
         Utilizator user = utilizatorRepo.gasesteDupaUsername(usernameLogat);
 
-        // Datele din query-urile de BD
         Double totalBani = utilizatorRepo.getTotalCheltuit(usernameLogat);
         Integer nrSpectacole = utilizatorRepo.getNumarSpectacole(usernameLogat);
         boolean isVip = utilizatorRepo.esteUtilizatorVIP(usernameLogat);
@@ -122,7 +121,7 @@ public class HomeController {
         Utilizator user = utilizatorRepo.gasesteDupaUsername(username);
 
         if (user != null && user.getClientId() != null) {
-            // Acum user.getClientId() nu va mai fi null
+
             rezervareRepo.creeazaRezervare(user.getClientId(), showId, nrBilete);
             return "redirect:/home?success";
         } else {
@@ -137,7 +136,7 @@ public class HomeController {
         String username = (String) session.getAttribute("utilizatorLogat");
         if (username == null) return "redirect:/login";
 
-        // Luăm ID-ul clientului (asigură-te că gasesteDupaUsername funcționează corect)
+        // cautam dupa username
         Utilizator user = utilizatorRepo.gasesteDupaUsername(username);
 
         if (user != null) {

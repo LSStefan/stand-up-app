@@ -9,21 +9,21 @@ import java.util.Date;
  * @version 10 Ianuarie 2026
  */
 public class Show {
-    private Integer showID; // Mapare pentru ShowID
-    private String titlu;   // Mapare pentru Titlu
-    private Date data;      // Mapare pentru Data (SQL type: date)
-    private Integer nrBilete; // Mapare pentru NrBilete
-    private Integer pret;   // Mapare pentru Pret
+    private Integer showID;
+    private String titlu;
+    private Date data;
+    private Integer nrBilete;
+    private Integer pret;
 
-    // Adaugă acest câmp în clasa Show
+
     private String imagineUrl;
 
 
-    // Variabila care va stoca numele artistilor concatenati din DB
+
     private String numeArtisti;
 
 
-    // Adaugă Getter și Setter (generat automat cu Click Dreapta -> Generate -> Getter and Setter)
+
     public String getImagineUrl() {
         return imagineUrl;
     }
@@ -46,7 +46,7 @@ public class Show {
     // Constructor gol
     public Show() {}
 
-    // Getters și Setters cu nume camelCase corect
+
     public Integer getShowID() { return showID; }
     public void setShowID(Integer showID) { this.showID = showID; }
 

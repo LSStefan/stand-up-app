@@ -78,4 +78,22 @@ public class ComediantRepository {
         String sql = "DELETE FROM Comedianti WHERE ComediantID = ?";
         jdbcTemplate.update(sql, id);
     }
+
+
+    public void updateComediant(Comediant c) {
+        String sql = "UPDATE Comedianti SET Nume = ?, Prenume = ?, NumeScena = ?, Stil = ?, ImagineUrl = ?, Descriere = ? WHERE ComediantID = ?";
+
+
+        jdbcTemplate.update(sql,
+                c.getNume(),
+                c.getPrenume(),
+                c.getNumeScena(),
+                c.getStil(),
+                c.getImagineUrl(),
+                c.getDescriere(),
+                c.getComediantId()
+        );
+    }
+
+
 }

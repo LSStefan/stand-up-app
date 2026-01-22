@@ -23,7 +23,6 @@ public class ShowRepository {
     private JdbcTemplate jdbcTemplate;
 
     public List<Show> findAll() {
-        // Varianta compatibilă cu versiuni vechi de SQL Server (2014/2016)
         String sql = "SELECT S.*, " +
                 "STUFF((SELECT ', ' + A.NumeScena " +
                 "       FROM Comedianti A " +
@@ -41,7 +40,7 @@ public class ShowRepository {
                 s.setPret(rs.getInt("Pret"));
                 s.setImagineUrl(rs.getString("ImagineUrl"));
 
-                // Mapăm coloana virtuală NumeArtisti
+
                 String artisti = rs.getString("NumeArtisti");
                 s.setNumeArtisti(artisti != null ? artisti : "Line-up în curs de confirmare");
 
@@ -54,9 +53,8 @@ public class ShowRepository {
     }
 
 
-    // Metoda actualizată pentru a include și imaginea
+
     public int save(Show s) {
-        // Am adăugat ImagineUrl în lista de coloane și un al 5-lea semn de întrebare
         String sql = "INSERT INTO showuri (Titlu, Data, NrBilete, Pret, ImagineUrl) VALUES (?, ?, ?, ?, ?)";
 
         return jdbcTemplate.update(sql,

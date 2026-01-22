@@ -29,12 +29,12 @@ public class Comediant {
     public void setDescriere(String descriere) {
         this.descriere = descriere;
     }
-    
+
     // Constructor fara argumente (Esențial pentru Spring/JDBC)
     public Comediant() {
     }
 
-    // 2. Constructor cu toate argumentele (Util când vrei să creezi tu unul rapid)
+
     public Comediant(Long comediantId, String nume, String prenume, String numeScena, String stil, String imagineUrl) {
         this.comediantId = comediantId;
         this.nume = nume;
@@ -44,7 +44,7 @@ public class Comediant {
         this.imagineUrl = imagineUrl;
     }
 
-    // 3. Gettere și Settere (JDBC le folosește pentru a citi/scrie datele)
+
     public Long getComediantId() { return comediantId; }
     public void setComediantId(Long comediantId) { this.comediantId = comediantId; }
 
