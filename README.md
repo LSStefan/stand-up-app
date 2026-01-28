@@ -50,7 +50,6 @@ jdbcTemplate.update(sql, nrBilete, idShow);
 <img width="1919" height="958" alt="Screenshot 2026-01-29 012556" src="https://github.com/user-attachments/assets/e21da4fd-264f-4ba8-b459-77b3a4b0e1d7" />
 <img width="1919" height="1036" alt="Screenshot 2026-01-29 012652" src="https://github.com/user-attachments/assets/0dd7775b-dff9-4aac-8531-ddfb1cb23d69" />
 
-<img width="1919" height="1023" alt="Screenshot 2026-01-29 012713" src="https://github.com/user-attachments/assets/cf83fad4-d72d-4ea7-85b5-401d906e4635" />
 
 
 <img width="1919" height="1036" alt="Screenshot 2026-01-29 012652" src="https://github.com/user-attachments/assets/fc54611e-fb96-49d6<img width="1919" height="1023" alt="Screenshot 2026-01-29 012713" src="https://github.com/user-attachments/assets/86e3d348-3f19-492d-95ec-b7883c50adc5" />
