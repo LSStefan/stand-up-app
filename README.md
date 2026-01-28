@@ -41,7 +41,7 @@ Aplicația implementează cele mai bune practici de securitate la nivel de bază
 ```java
 String sql = "UPDATE Showuri SET NrBilete = NrBilete - ? WHERE ShowID = ?";
 jdbcTemplate.update(sql, nrBilete, idShow);
-'''
+```
 
 <img width="1917" height="1032" alt="Screenshot 2026-01-29 012353" src="https://github.com/user-attachments/assets/1cc7705c-9097-47d7-bea3-2fa34deeb79a" />
 <img width="1919" height="1012" alt="Screenshot 2026-01-29 012432" src="https://github.com/user-attachments/assets/29056744-ba9a-4438-af59-26dd488f0ace" />
